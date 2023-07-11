@@ -1,19 +1,16 @@
 package com.example.hdxwallpaper;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SearchModel {
-    private ArrayList<ImageModel> photos;
+    private final List<ImageModel> photos;
 
-    public SearchModel(ArrayList<ImageModel> photos) {
-        this.photos = photos;
+    public SearchModel(List<ImageModel> photos) {
+        this.photos = Collections.unmodifiableList(photos);
     }
 
-    public ArrayList<ImageModel> getPhotos() {
+    public List<ImageModel> getPhotos() {
         return photos;
-    }
-
-    public void setPhotos(ArrayList<ImageModel> photos) {
-        this.photos = photos;
     }
 }

@@ -22,7 +22,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/image"
                 android:background="@drawable/imageviewbg"
-                android:scaleType="centerCrop">
+                android:scaleType="centerCrop"
+                android:contentDescription="TODO">
 
             </ImageView>
 

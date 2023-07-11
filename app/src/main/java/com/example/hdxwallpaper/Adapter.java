@@ -19,76 +19,61 @@ import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
+    private final Context context;
+    private final ArrayList<ImageModel> wallpaperList;
 
-    Context context;
-    ArrayList<ImageModel> wallpaperlist;
-
-    public Adapter(Context context, ArrayList<ImageModel> wallpaperlist) {
+    public Adapter(Context context, ArrayList<ImageModel> wallpaperList) {
         this.context = context;
-        this.wallpaperlist = wallpaperlist;
+        this.wallpaperList = wallpaperList;
     }
 
     @NonNull
     @Override
-    public Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.item_layout,null,false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ImageModel wallpaper = wallpaperList.get(position);
 
         holder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 holder.textView.setMovementMethod(LinkMovementMethod.getInstance());
-                holder.textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent browserintent=new Intent(Intent.ACTION_VIEW);
-                        browserintent.setData(Uri.parse("https://www.pexels.com/"));
-                        browserintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(browserintent);
 
-                    }
-                });
-
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pexels.com/"));
+                browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(browserIntent);
             }
         });
 
-        Glide.with(context).load(wallpaperlist.get(position).getSrc().getPortrait()).into(holder.imageView);
+        Glide.with(context).load(wallpaper.getSrc().getPortrait()).into(holder.imageView);
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context,SetWallpaper.class);
-                intent.putExtra("image",wallpaperlist.get(position).getSrc().getPortrait());
+                Intent intent = new Intent(context, SetWallpaper.class);
+                intent.putExtra("image", wallpaper.getSrc().getPortrait());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
-
-
-
-
     }
 
     @Override
     public int getItemCount() {
-        return wallpaperlist.size();
+        return wallpaperList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
 
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            imageView=itemView.findViewById(R.id.image);
-            textView=itemView.findViewById(R.id.textview);
+            imageView = itemView.findViewById(R.id.image);
+            textView = itemView.findViewById(R.id.textview);
         }
     }
 }
